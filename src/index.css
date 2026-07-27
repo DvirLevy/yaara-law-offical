@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* Force the light palette regardless of OS/browser dark-mode setting. */
+    color-scheme: light;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.7;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  a {
+    @apply text-inherit no-underline;
+  }
+  img {
+    @apply block max-w-full;
+  }
+  h1, h2, h3, h4 {
+    @apply font-serif font-bold leading-[1.1] m-0;
+  }
+  p {
+    @apply m-0 mb-4;
+  }
+  em {
+    @apply not-italic text-primary;
+  }
+}
+
+@layer utilities {
+  /* Fades the edges of the horizontally-scrolling testimonials marquee. */
+  .marquee-mask {
+    mask-image: linear-gradient(to left, transparent, #000 8%, #000 92%, transparent);
+    -webkit-mask-image: linear-gradient(to left, transparent, #000 8%, #000 92%, transparent);
+  }
+}

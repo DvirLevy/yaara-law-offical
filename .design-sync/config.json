@@ -1,0 +1,23 @@
+{
+  "projectId": "0d4d4cce-7c90-4d1b-84e1-20f78b5db3fb",
+  "shape": "package",
+  "pkg": "yaara-law",
+  "globalName": "YaaraLawUI",
+  "srcDir": "src/components/ui",
+  "tsconfig": "tsconfig.json",
+  "cssEntry": "dist/assets/index-CiC0ipWh.css",
+  "runtimeFontPrefixes": ["Heebo", "Frank Ruhl Libre"],
+  "readmeHeader": ".design-sync/conventions.md",
+  "overrides": {
+    "Dialog": { "cardMode": "single", "viewport": "560x420" },
+    "DialogPortal": { "cardMode": "single", "viewport": "560x420" },
+    "DialogOverlay": { "cardMode": "single", "viewport": "560x420" },
+    "DialogClose": { "cardMode": "single", "viewport": "560x420" },
+    "DialogTrigger": { "cardMode": "single", "viewport": "560x420" },
+    "DialogContent": { "cardMode": "single", "viewport": "560x420" },
+    "DialogHeader": { "cardMode": "single", "viewport": "560x420" },
+    "DialogFooter": { "cardMode": "single", "viewport": "560x420" },
+    "DialogTitle": { "cardMode": "single", "viewport": "560x420" },
+    "DialogDescription": { "cardMode": "single", "viewport": "560x420" }
+  }
+}
