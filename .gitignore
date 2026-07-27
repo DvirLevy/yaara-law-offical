@@ -6,10 +6,10 @@ dist
 dist-ssr
 *.local
 
-# Env files (keep .env tracked)
+# Env files (keep .env.example tracked)
 .env
 .env.*
-!.env
+!.env.example
 
 # Logs
 npm-debug.log*

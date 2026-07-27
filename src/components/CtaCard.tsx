@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 
 import ctaFallback from '../../content/cta'
 import { useContent } from '@/lib/content'
+import { submitContactForm } from '@/lib/contactSubmit'
 import { Container } from '@/components/ui/container'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,18 +16,28 @@ export default function CtaCard({ onPrivacyOpen }: Props) {
   const t = useContent('cta', ctaFallback)
   const [msg, setMsg] = useState('')
   const [consent, setConsent] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const f = e.currentTarget
     const name = (f.elements.namedItem('name') as HTMLInputElement).value.trim()
     const phone = (f.elements.namedItem('phone') as HTMLInputElement).value.trim()
+    const email = (f.elements.namedItem('email') as HTMLInputElement).value.trim()
     if (!name || !phone) {
       setMsg(t.error_msg)
       return
     }
-    setMsg(t.success_msg)
-    f.reset()
+    setSubmitting(true)
+    try {
+      await submitContactForm({ fullName: name, email, phone, message: '', subject: t.email_subject })
+      setMsg(t.success_msg)
+      f.reset()
+    } catch {
+      setMsg(t.submit_error_msg)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -43,10 +54,10 @@ export default function CtaCard({ onPrivacyOpen }: Props) {
             {t.sub_plain} <b className="font-semibold text-foreground">{t.sub_bold}</b>
           </p>
           <form className="flex flex-wrap items-stretch gap-3.5" onSubmit={handleSubmit} noValidate>
-            <Input name="name" type="text" placeholder={t.name_placeholder} required className="min-w-0 flex-[1_1_180px]" />
+            <Input name="name" type="text" placeholder={t.name_placeholder} required className="min-w-0 flex-[1_1_180px]"/>
             <Input name="phone" type="tel" placeholder={t.phone_placeholder} required className="min-w-0 flex-[1_1_180px]" />
             <Input name="email" type="email" placeholder={t.email_placeholder} className="min-w-0 flex-[1_1_180px]" />
-            <Button type="submit" className="flex-none">
+            <Button type="submit" className="flex-none" disabled={submitting}>
               {t.submit}
             </Button>
           </form>

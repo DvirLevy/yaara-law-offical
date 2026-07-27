@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
-import Hero from './Hero'
-import heroFallback from '../../content/hero'
+import Hero from '../../components/Hero'
+import heroFallback from '../../../content/hero'
 
 describe('Hero', () => {
   it('renders the headline, badge and portrait', () => {

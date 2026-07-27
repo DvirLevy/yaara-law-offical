@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
-import About from './About'
-import aboutFallback from '../../content/about'
+import About from '../../components/About'
+import aboutFallback from '../../../content/about'
 
 describe('About', () => {
   it('renders the bio copy, portrait tag and phrase', () => {

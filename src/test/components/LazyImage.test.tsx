@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
-import LazyImage from './LazyImage'
+import LazyImage from '../../components/LazyImage'
 
 describe('LazyImage', () => {
   it('defaults to lazy loading and async decoding', () => {

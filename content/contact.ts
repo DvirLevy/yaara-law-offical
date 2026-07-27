@@ -14,6 +14,8 @@ export default {
   submit: "שליחת הפנייה ←",
   success_msg: "תודה! פנייתך נשלחה. נחזור אליך בתוך יום עסקים.",
   error_msg: "נא למלא שם, טלפון והודעה.",
+  submit_error_msg: "אירעה שגיאה בשליחה. נסו שוב או צרו קשר בטלפון.",
+  email_subject: "פנייה חדשה – טופס יצירת קשר",
   office_phone_label: "טלפון משרד",
   office_phone: "055-956-9556",
   mobile_label: "נייד",

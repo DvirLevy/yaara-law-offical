@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
-import Footer from './Footer'
-import footerFallback from '../../content/footer'
+import Footer from '../../components/Footer'
+import footerFallback from '../../../content/footer'
 
 describe('Footer', () => {
   it('renders the current year and office contact links', () => {

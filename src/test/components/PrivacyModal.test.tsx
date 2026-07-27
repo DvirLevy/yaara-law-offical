@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
-import PrivacyModal from './PrivacyModal'
-import privacyFallback from '../../content/privacy'
+import PrivacyModal from '../../components/PrivacyModal'
+import privacyFallback from '../../../content/privacy'
 
 describe('PrivacyModal', () => {
   it('renders the policy title and body when open', () => {

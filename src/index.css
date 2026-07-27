@@ -29,6 +29,13 @@
   em {
     @apply not-italic text-primary;
   }
+  /* Browsers default type="tel"/"number" inputs to direction:ltr even on an
+     RTL page, which misaligns their placeholder/text against every other
+     field in the same form. The site is RTL-only, so force it back. */
+  input[type='tel'],
+  input[type='number'] {
+    direction: rtl;
+  }
 }
 
 @layer utilities {

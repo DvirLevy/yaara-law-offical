@@ -3,6 +3,7 @@ import { Phone, Smartphone, Mail, MapPin, Clock } from 'lucide-react'
 
 import contactFallback from '../../content/contact'
 import { useContent } from '@/lib/content'
+import { submitContactForm } from '@/lib/contactSubmit'
 import { Container } from '@/components/ui/container'
 import { SectionLabel, SectionTitle, SectionLede } from '@/components/ui/section-heading'
 import { Button } from '@/components/ui/button'
@@ -13,19 +14,29 @@ import { Label } from '@/components/ui/label'
 export default function Contact() {
   const t = useContent('contact', contactFallback)
   const [msg, setMsg] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const f = e.currentTarget
     const name = (f.elements.namedItem('name') as HTMLInputElement).value.trim()
     const phone = (f.elements.namedItem('phone') as HTMLInputElement).value.trim()
+    const email = (f.elements.namedItem('email') as HTMLInputElement).value.trim()
     const message = (f.elements.namedItem('message') as HTMLTextAreaElement).value.trim()
     if (!name || !phone || !message) {
       setMsg(t.error_msg)
       return
     }
-    setMsg(t.success_msg)
-    f.reset()
+    setSubmitting(true)
+    try {
+      await submitContactForm({ fullName: name, email, phone, message, subject: t.email_subject })
+      setMsg(t.success_msg)
+      f.reset()
+    } catch {
+      setMsg(t.submit_error_msg)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -61,7 +72,7 @@ export default function Contact() {
               <Textarea id="f-msg" name="message" placeholder={t.message_placeholder} required
                 className="rounded-none px-0 py-[13px]" />
             </div>
-            <Button type="submit" className="self-start">
+            <Button type="submit" className="self-start" disabled={submitting}>
               {t.submit}
             </Button>
             {msg && <div className="border border-brand-line bg-brand-soft px-[18px] py-3.5 text-[13.5px] text-primary">{msg}</div>}

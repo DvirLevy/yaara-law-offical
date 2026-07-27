@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
-import Pillars from './Pillars'
-import pillarsFallback from '../../content/pillars'
+import Pillars from '../../components/Pillars'
+import pillarsFallback from '../../../content/pillars'
 
 describe('Pillars', () => {
   it('renders one card per pillar with its label and description', () => {

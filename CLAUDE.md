@@ -16,13 +16,13 @@ npm run test            # run vitest suite once
 npm run test:watch       # vitest watch mode
 ```
 
-Run a single test file: `npx vitest run src/components/Hero.test.tsx`
+Run a single test file: `npx vitest run src/test/components/Hero.test.tsx`
 
 ## Architecture
 
 **Content is separate from components.** Every section's copy lives in `content/*.ts` as plain `key: value` objects (no JSX). These modules serve two roles: the TypeScript type source, and the offline/fallback copy. `src/lib/content.ts`'s `useContent<T>(key, fallback)` returns the bundled fallback synchronously when `VITE_CONTENT_BASE_URL` is unset (local dev), or fetches `${VITE_CONTENT_BASE_URL}/{key}.json` at runtime in production, caching per session and silently falling back to bundled copy on failure. `Areas`/`Testimonials` go through typed wrapper hooks (`useAreas()`/`useTestimonials()` in `src/data/`) instead, since those content files export `{ meta, items }` rather than a flat object. `content/privacy.ts` only holds the modal title/subtitle/button — the privacy policy's rich legal copy stays as structured JSX directly in `PrivacyModal.tsx`.
 
-**Images go through one indirection point.** `src/config/media.ts` exports `s3(path)`, which builds every image URL from `VITE_S3_BASE_URL` (falls back to `/assets` i.e. `public/assets` when unset). Never hardcode image paths — always go through `s3()`.
+**Images go through one indirection point.** `src/config/media.ts` exports `s3(path)`, which builds every image URL from `VITE_S3_BASE_URL`. Images are hosted on S3 (`yaara-law-website` bucket) — there's no local `public/assets` copy anymore, so `VITE_S3_BASE_URL` must be set (including in local dev) for images to render. Never hardcode image paths — always go through `s3()`.
 
 **Code splitting is deliberate, not automatic.** `Navbar`/`Hero` are static imports (above the fold). Every other section (`CtaCard`, `Pillars`, `About`, `Testimonials`, `Areas`, `Contact`, `Footer`, `PrivacyModal`, `WaFab`) is `React.lazy()`-loaded in `App.tsx`, each behind its own `<Suspense>`. `vite.config.ts` has a `manualChunks` function that explicitly names these components (`SECTION_COMPONENTS` array) so each gets its own chunk (`section-hero.js`, ...) and pins vendor code into `vendor-react` / `vendor-ui` shared chunks. When adding a new lazy section component, add its name to `SECTION_COMPONENTS` in `vite.config.ts` too.
 
@@ -34,13 +34,13 @@ Run a single test file: `npx vitest run src/components/Hero.test.tsx`
 
 **Forms don't submit anywhere yet.** `CtaCard.tsx` and `Contact.tsx` show a success message on submit with no actual request sent. Wiring a backend (EmailJS, Resend, Formspree, etc.) means editing each component's `handleSubmit`.
 
-**Tests are colocated**: every `src/components/*.tsx` has a matching `*.test.tsx` (vitest + Testing Library + jsdom) verifying render, bundled fallback copy, and relevant interactive behavior. `App.test.tsx` is an integration smoke test (hero renders eagerly, a lazy section resolves via Suspense).
+**Tests live under `src/test/`, mirroring `src/`**: every `src/components/*.tsx` has a matching `src/test/components/*.test.tsx` (vitest + Testing Library + jsdom) verifying render, bundled fallback copy, and relevant interactive behavior. `src/test/App.test.tsx` is an integration smoke test (hero renders eagerly, a lazy section resolves via Suspense).
 
 ## Environment variables
 
-Both optional; the app runs fully offline with neither set (see `.env.example`).
+`VITE_CONTENT_BASE_URL` is optional. `VITE_S3_BASE_URL` is now required (including in local dev) — images are S3-only, there's no bundled fallback copy.
 
 | Variable | Used for | Unset behavior |
 |---|---|---|
-| `VITE_S3_BASE_URL` | Image host (S3/CloudFront) via `src/config/media.ts` | Falls back to `public/assets` |
+| `VITE_S3_BASE_URL` | Image host (S3) via `src/config/media.ts` | Images fail to load — no local fallback |
 | `VITE_CONTENT_BASE_URL` | Section copy CDN via `src/lib/content.ts` | Falls back to bundled `content/*.ts` |

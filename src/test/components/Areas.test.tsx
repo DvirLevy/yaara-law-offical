@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
-import Areas from './Areas'
-import { meta, items } from '../../content/areas'
+import Areas from '../../components/Areas'
+import { meta, items } from '../../../content/areas'
 
 describe('Areas', () => {
   it('renders the section heading, lede and every practice area', () => {

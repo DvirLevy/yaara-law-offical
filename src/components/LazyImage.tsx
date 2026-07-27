@@ -10,7 +10,9 @@ export default function LazyImage({
     <img
       loading={priority ? 'eager' : 'lazy'}
       decoding="async"
-      fetchPriority={priority ? 'high' : 'auto'}
+      // Lowercase: React 18 doesn't recognize the camelCase `fetchPriority`
+      // prop and silently drops it instead of rendering the DOM attribute.
+      {...{ fetchpriority: priority ? 'high' : 'auto' }}
       {...props}
     />
   )

@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
-import Navbar from './Navbar'
-import navFallback from '../../content/navbar'
+import Navbar from '../../components/Navbar'
+import navFallback from '../../../content/navbar'
 
 describe('Navbar', () => {
   it('renders every nav link and the booking CTA', () => {

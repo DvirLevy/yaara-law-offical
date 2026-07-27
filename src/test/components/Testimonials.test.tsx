@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
-import Testimonials from './Testimonials'
-import { meta, items } from '../../content/testimonials'
+import Testimonials from '../../components/Testimonials'
+import { meta, items } from '../../../content/testimonials'
 
 describe('Testimonials', () => {
   it('renders the section heading and google rating', () => {

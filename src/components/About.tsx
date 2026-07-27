@@ -7,6 +7,7 @@ import LazyImage from './LazyImage'
 
 export default function About() {
   const t = useContent('about', aboutFallback)
+  
 
   return (
     <div className="bg-card py-[110px] max-lg:py-20" id="about">

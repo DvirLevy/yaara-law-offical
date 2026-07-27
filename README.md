@@ -45,12 +45,15 @@ src/
 │   └── CtaCard.tsx / Pillars.tsx / About.tsx / Testimonials.tsx /
 │       Areas.tsx / Contact.tsx / Footer.tsx / PrivacyModal.tsx / WaFab.tsx
 │       # React.lazy()-loaded from App.tsx — each gets its own build chunk
-└── data/
-    ├── testimonials.ts      # useTestimonials() — typed wrapper over useContent()
-    └── areas.ts             # useAreas() — typed wrapper over useContent()
+├── data/
+│   ├── testimonials.ts      # useTestimonials() — typed wrapper over useContent()
+│   └── areas.ts             # useAreas() — typed wrapper over useContent()
+└── test/
+    ├── App.test.tsx
+    └── components/          # one *.test.tsx per src/components/*.tsx
 ```
 
-Every section component + its `*.test.tsx` are colocated in `src/components/`.
+Every section component has a matching `*.test.tsx` under `src/test/components/`, mirroring `src/components/`.
 
 ---
 
@@ -120,12 +123,12 @@ const S3_BASE_URL = import.meta.env.VITE_S3_BASE_URL || '/assets'
 export const s3 = (path: string) => `${S3_BASE_URL}/${path}`
 ```
 
-Left unset, it falls back to `public/assets` so `npm run dev` works with no
-bucket configured. Set your real bucket / CloudFront domain in `.env` (copy
-`.env.example`):
+There's no local `public/assets` copy anymore, so the `/assets` fallback
+above is currently dead — `VITE_S3_BASE_URL` must be set (including in local
+dev) or images won't load. Set your bucket / CloudFront domain in `.env`:
 
 ```
-VITE_S3_BASE_URL=https://cdn.yl-law.net
+VITE_S3_BASE_URL=https://yaara-law-website.s3.eu-north-1.amazonaws.com
 ```
 
 Upload these files to that bucket, preserving the names used in components:
@@ -139,12 +142,13 @@ yaara-portrait.jpg
 
 ## Environment variables
 
-See `.env.example`. Both are optional — the app runs fully offline with
-neither set.
+See `.env.example`. `VITE_CONTENT_BASE_URL` is optional — the app runs fully
+offline for copy with it unset. `VITE_S3_BASE_URL` is now required
+(including in local dev): there's no bundled image fallback.
 
 | Variable | Used for | Unset behavior |
 |---|---|---|
-| `VITE_S3_BASE_URL` | Image host (S3 / CloudFront) | Falls back to `public/assets` |
+| `VITE_S3_BASE_URL` | Image host (S3) | Images fail to load — no local fallback |
 | `VITE_CONTENT_BASE_URL` | Section copy CDN/API | Falls back to bundled `content/*.ts` |
 
 ---
@@ -219,12 +223,13 @@ Resend, Formspree, etc.) inside each component's `handleSubmit`.
 ## Testing
 
 `vitest` + `@testing-library/react` + `jsdom`. Every component in
-`src/components/` has a colocated `*.test.tsx` covering: it renders, its
-bundled fallback copy appears, and (where relevant) its interactive/anchor
-behavior — e.g. `CtaCard` opens the privacy modal, `PrivacyModal` mounts
-only when `open`, `LazyImage` toggles `loading`/`fetchPriority` correctly.
-`App.test.tsx` is an integration smoke test asserting the hero renders
-eagerly and a lazy-loaded section (Footer) resolves via `Suspense`.
+`src/components/` has a matching `*.test.tsx` under `src/test/components/`
+covering: it renders, its bundled fallback copy appears, and (where relevant)
+its interactive/anchor behavior — e.g. `CtaCard` opens the privacy modal,
+`PrivacyModal` mounts only when `open`, `LazyImage` toggles
+`loading`/`fetchpriority` correctly. `src/test/App.test.tsx` is an
+integration smoke test asserting the hero renders eagerly and a lazy-loaded
+section (Footer) resolves via `Suspense`.
 
 ```bash
 npm run test
