@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import tailwindAnimate from 'tailwindcss-animate'
 
 /**
  * Single source of truth for design tokens.
@@ -53,7 +54,6 @@ export default {
         'card-lg': '0 18px 60px rgba(24,28,32,.12), 0 4px 12px rgba(24,28,32,.06)',
       },
       keyframes: {
-        marquee: { from: { transform: 'translateX(0)' }, to: { transform: 'translateX(-50%)' } },
         'wa-pulse': {
           '0%': { boxShadow: '0 6px 24px rgba(31,142,61,.38), 0 0 0 0 rgba(31,142,61,.5)' },
           '70%': { boxShadow: '0 6px 24px rgba(31,142,61,.38), 0 0 0 20px rgba(31,142,61,0)' },
@@ -67,7 +67,6 @@ export default {
         'accordion-up': { from: { height: 'var(--radix-accordion-content-height)' }, to: { height: '0' } },
       },
       animation: {
-        marquee: 'marquee 60s linear infinite',
         'wa-pulse': 'wa-pulse 2.4s ease-out infinite',
         'pin-pulse': 'pin-pulse 2.4s ease-in-out infinite',
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -75,5 +74,5 @@ export default {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [tailwindAnimate],
 } satisfies Config

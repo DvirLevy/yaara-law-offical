@@ -37,11 +37,3 @@
     direction: rtl;
   }
 }
-
-@layer utilities {
-  /* Fades the edges of the horizontally-scrolling testimonials marquee. */
-  .marquee-mask {
-    mask-image: linear-gradient(to left, transparent, #000 8%, #000 92%, transparent);
-    -webkit-mask-image: linear-gradient(to left, transparent, #000 8%, #000 92%, transparent);
-  }
-}

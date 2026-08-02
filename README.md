@@ -150,6 +150,8 @@ offline for copy with it unset. `VITE_S3_BASE_URL` is now required
 |---|---|---|
 | `VITE_S3_BASE_URL` | Image host (S3) | Images fail to load — no local fallback |
 | `VITE_CONTENT_BASE_URL` | Section copy CDN/API | Falls back to bundled `content/*.ts` |
+| `VITE_GOOGLE_MAPS_API_KEY` | Google Maps JS API key for live testimonial reviews (`src/lib/googlePlaces.ts`) — must be restricted to that API + this site's HTTP referrer in Google Cloud Console | Testimonials uses bundled/CDN copy |
+| `VITE_GOOGLE_PLACE_ID` | Google Business Place ID to pull reviews from | Testimonials uses bundled/CDN copy |
 
 ---
 

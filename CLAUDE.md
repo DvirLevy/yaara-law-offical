@@ -44,3 +44,7 @@ Run a single test file: `npx vitest run src/test/components/Hero.test.tsx`
 |---|---|---|
 | `VITE_S3_BASE_URL` | Image host (S3) via `src/config/media.ts` | Images fail to load — no local fallback |
 | `VITE_CONTENT_BASE_URL` | Section copy CDN via `src/lib/content.ts` | Falls back to bundled `content/*.ts` |
+| `VITE_GOOGLE_MAPS_API_KEY` | Google Maps JavaScript API key for live reviews, via `src/lib/googlePlaces.ts` | Testimonials uses bundled/CDN copy |
+| `VITE_GOOGLE_PLACE_ID` | Google Business Place ID to fetch reviews for | Testimonials uses bundled/CDN copy |
+
+**Testimonials reviews can be live from Google.** `Testimonials.tsx` (via `useTestimonials()` in `src/data/testimonials.ts`) fetches rating + up to 5 reviews from the office's Google Business listing when both `VITE_GOOGLE_MAPS_API_KEY` and `VITE_GOOGLE_PLACE_ID` are set, using the Maps JavaScript API loaded client-side (`src/lib/googlePlaces.ts` — `Place.fetchFields()`, not the raw Places REST endpoint, which doesn't support browser CORS). The API key is shipped in the client bundle by design (all `VITE_`-prefixed vars are) — it must be restricted in Google Cloud Console to the Maps JavaScript API + an HTTP referrer allowlist for this site's domain(s), not treated as a secret. Any fetch failure, or either var being unset, silently falls through to the same CDN/bundled-fallback copy `useContent()` already provides.

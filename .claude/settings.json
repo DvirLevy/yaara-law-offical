@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/dvirlevy/Desktop/Dvir/yaara-law-tsx status --short)",
+      "Bash(ls ~/Library/Caches/ms-playwright 2>/dev/null; echo \"---full log---\"; cat /tmp/pw-install.log)",
+      "Read(//Users/dvirlevy/Library/Caches/ms-playwright/**)",
+      "Bash(lsof -ti:5174 -sTCP:LISTEN)",
+      "Bash(xargs -r kill)",
+      "Bash(rm -f /private/tmp/claude-501/-Users-dvirlevy-Desktop-Dvir-yaara-law-tsx/97a16f91-0d0c-4bf6-8aed-b353d9154587/scratchpad/*.png /private/tmp/claude-501/-Users-dvirlevy-Desktop-Dvir-yaara-law-tsx/97a16f91-0d0c-4bf6-8aed-b353d9154587/scratchpad/*.mjs)"
+    ]
+  }
+}

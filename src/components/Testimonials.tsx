@@ -1,14 +1,16 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
+import Autoplay from 'embla-carousel-autoplay'
 
 import { useTestimonials, type Testimonial } from '../data/testimonials'
 import { Container } from '@/components/ui/container'
 import { SectionLabel, SectionTitle } from '@/components/ui/section-heading'
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 
 function TestiCard({ t }: { t: Testimonial }) {
   return (
-    <article className="flex w-[400px] flex-shrink-0 flex-col gap-4 border border-white/10 border-t-primary bg-white/[.08] p-[30px] transition-colors hover:bg-white/[.13]" dir="rtl">
+    <article className="mx-auto flex h-[360px] w-full max-w-[640px] flex-col gap-4 border border-white/10 border-t-primary bg-white/[.08] p-[30px]" dir="rtl">
       <div className="text-[13px] tracking-[2px] text-[#c8884a]">★★★★★</div>
-      <p className="flex-1 font-serif text-[17px] font-normal leading-[1.72] text-[#f0eee9] before:me-1 before:align-[-16px] before:text-[44px] before:leading-none before:text-brand-3 before:content-['„']">
+      <p className="line-clamp-6 flex-1 font-serif text-[17px] font-normal leading-[1.72] text-[#f0eee9] before:me-1 before:align-[-16px] before:text-[44px] before:leading-none before:text-brand-3 before:content-['„']">
         {t.q}
       </p>
       <div className="flex items-center gap-3 border-t border-white/10 pt-4">
@@ -26,15 +28,7 @@ function TestiCard({ t }: { t: Testimonial }) {
 
 export default function Testimonials() {
   const { meta: TESTIMONIALS_META, items: TESTIMONIALS } = useTestimonials()
-  const trackRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    // Duplicate cards for seamless loop
-    const track = trackRef.current
-    if (!track) return
-    const clone = track.innerHTML
-    track.innerHTML += clone
-  }, [TESTIMONIALS])
+  const autoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }))
 
   return (
     <div className="bg-charcoal py-[100px]" id="testimonials">
@@ -55,13 +49,21 @@ export default function Testimonials() {
           </div>
         </div>
       </Container>
-      <div className="marquee-mask relative overflow-hidden">
-        <div className="flex w-max animate-marquee gap-5 [direction:ltr] hover:[animation-play-state:paused]" ref={trackRef}>
-          {TESTIMONIALS.map((t, i) => (
-            <TestiCard key={i} t={t} />
-          ))}
-        </div>
-      </div>
+      <Container>
+        <Carousel
+          opts={{ loop: true, direction: 'rtl' }}
+          plugins={[autoplay.current]}
+          className="w-full"
+        >
+          <CarouselContent>
+            {TESTIMONIALS.map((t, i) => (
+              <CarouselItem key={i}>
+                <TestiCard t={t} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </Container>
     </div>
   )
 }

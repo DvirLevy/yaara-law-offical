@@ -9,6 +9,10 @@ interface ImportMetaEnv {
   readonly VITE_EMAIL_SERVICE_LAMBDA?: string
   /** x-api-key for VITE_EMAIL_SERVICE_LAMBDA. */
   readonly VITE_API_KEY_EMAIL_SERVICE?: string
+  /** Google Maps JavaScript API key (restricted to that API + this site's HTTP referrer), used to fetch live Google reviews. See src/lib/googlePlaces.ts. */
+  readonly VITE_GOOGLE_MAPS_API_KEY?: string
+  /** Google Place ID for the office's Google Business listing. Both this and VITE_GOOGLE_MAPS_API_KEY must be set to fetch live reviews; otherwise Testimonials uses bundled/CDN copy. */
+  readonly VITE_GOOGLE_PLACE_ID?: string
 }
 
 interface ImportMeta {
