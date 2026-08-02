@@ -8,9 +8,9 @@ import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carouse
 
 function TestiCard({ t }: { t: Testimonial }) {
   return (
-    <article className="mx-auto flex h-[360px] w-full max-w-[640px] flex-col gap-4 border border-white/10 border-t-primary bg-white/[.08] p-[30px]" dir="rtl">
+    <article className="mx-auto flex w-[400px] max-sm:w-[85vw] flex-col gap-4 border border-white/10 border-t-primary bg-white/[.08] p-[30px] transition-colors hover:bg-white/[.13]" dir="rtl">
       <div className="text-[13px] tracking-[2px] text-[#c8884a]">★★★★★</div>
-      <p className="line-clamp-6 flex-1 font-serif text-[17px] font-normal leading-[1.72] text-[#f0eee9] before:me-1 before:align-[-16px] before:text-[44px] before:leading-none before:text-brand-3 before:content-['„']">
+      <p className="relative flex-1 pt-4 font-serif text-[17px] font-normal leading-[1.72] text-[#f0eee9] before:absolute before:-top-6 before:right-0 before:text-[44px] before:leading-none before:text-brand-3 before:content-['„']">
         {t.q}
       </p>
       <div className="flex items-center gap-3 border-t border-white/10 pt-4">
