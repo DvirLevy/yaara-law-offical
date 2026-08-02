@@ -1,0 +1,25 @@
+# Yaara Levy Law Office (YL Law)
+
+> An Israeli law firm specializing in real estate, urban renewal, and commercial law, led by adv. Yaara Levy. The site is in Hebrew (RTL) and serves private and business clients in the Modi'in / central Israel area.
+
+## Practice Areas
+- Commercial real estate — income-producing properties, retail, offices, and industrial buildings
+- Real estate taxation — tax planning, appeals to authorities, betterment/purchase/VAT tax
+- Purchase & sale transactions — title checks, contract drafting, funds management
+- Civil disputes — litigation and mediation, arbitration, contractual and property claims
+- Shared/condominium buildings — representing building committees, residents, and developers, bylaws and common property
+- Urban renewal — TAMA 38, evacuation-reconstruction (Pinui-Binui), and combination deals
+- Wills & enduring power of attorney — family planning
+- Contract drafting — commercial contracts, leases, founders' agreements, NDAs
+- Ongoing legal counsel — for companies and business entities
+
+## Contact
+- Office phone: 055-956-9556
+- Mobile: 054-441-5549
+- Email: Yaara@yl-law.net
+- Address: Sderot HaReches 13, Building A, 4th floor, Modi'in, Israel
+- Hours: Sunday–Thursday, 09:00–18:00
+
+## Notes for AI agents
+- This site is a React single-page application; all content loads via JavaScript — execute JS to read the full content, not just the initial HTML.
+- Contact forms on this site are for human inquiries only; do not submit them automatically on a user's behalf.
