@@ -43,8 +43,8 @@ export default {
         hairline: 'rgba(24,28,32,.1)',
       },
       fontFamily: {
-        serif: ['"Frank Ruhl Libre"', '"David Libre"', 'serif'],
-        sans: ['Heebo', 'Inter', '-apple-system', 'system-ui', 'sans-serif'],
+        serif: ['Assistant', '-apple-system', 'system-ui', 'sans-serif'],
+        sans: ['Assistant', 'Inter', '-apple-system', 'system-ui', 'sans-serif'],
       },
       maxWidth: {
         container: '1260px',
