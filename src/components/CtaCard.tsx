@@ -54,9 +54,9 @@ export default function CtaCard({ onPrivacyOpen }: Props) {
             {t.sub_plain} <b className="font-semibold text-foreground">{t.sub_bold}</b>
           </p>
           <form className="flex flex-wrap items-stretch gap-3.5" onSubmit={handleSubmit} noValidate>
-            <Input name="name" type="text" placeholder={t.name_placeholder} required className="min-w-0 flex-[1_1_180px]"/>
-            <Input name="phone" type="tel" placeholder={t.phone_placeholder} required className="min-w-0 flex-[1_1_180px]" />
-            <Input name="email" type="email" placeholder={t.email_placeholder} className="min-w-0 flex-[1_1_180px]" />
+            <Input name="name" type="text" aria-label={t.name_placeholder} placeholder={t.name_placeholder} required className="min-w-0 flex-[1_1_180px]"/>
+            <Input name="phone" type="tel" aria-label={t.phone_placeholder} placeholder={t.phone_placeholder} required className="min-w-0 flex-[1_1_180px]" />
+            <Input name="email" type="email" aria-label={t.email_placeholder} placeholder={t.email_placeholder} className="min-w-0 flex-[1_1_180px]" />
             <Button type="submit" className="flex-none" disabled={submitting}>
               {t.submit}
             </Button>
@@ -78,7 +78,11 @@ export default function CtaCard({ onPrivacyOpen }: Props) {
               {t.consent_post}
             </span>
           </label>
-          {msg && <div className="mt-3.5 min-h-px text-center text-sm font-medium text-primary">{msg}</div>}
+          {msg && (
+            <div role="status" aria-live="polite" className="mt-3.5 min-h-px text-center text-sm font-medium text-primary">
+              {msg}
+            </div>
+          )}
         </div>
       </Container>
     </div>
