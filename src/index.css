@@ -37,3 +37,39 @@
     direction: rtl;
   }
 }
+
+:root {
+  --ink: #1d2024;
+}
+
+.hero-quote {
+  margin: 0 0 40px;
+  font-family: Assistant, sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(26px, 2.8vw, 44px);
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.hero-quote-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(32px);
+  animation: hero-quote-word-in 0.55s cubic-bezier(0.16, 0.84, 0.44, 1) forwards;
+}
+
+@keyframes hero-quote-word-in {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-quote-word {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

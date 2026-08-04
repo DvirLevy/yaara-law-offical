@@ -41,7 +41,7 @@ export default function CtaCard({ onPrivacyOpen }: Props) {
   }
 
   return (
-    <div className="relative z-[5] mt-[clamp(-130px,-9vw,-70px)] pb-1.5 max-lg:mt-[-44px]">
+    <div className="relative z-[5] mt-[calc(clamp(-130px,-9vw,-70px)_+_3px)] pb-1.5 max-lg:mt-[-44px]">
       <Container>
         <div className="relative bg-card px-14 pb-[38px] pt-[58px] shadow-card-lg before:pointer-events-none before:absolute before:inset-[11px] before:border before:border-brand-line max-lg:px-[22px] max-lg:pb-7 max-lg:pt-10 max-lg:before:inset-2">
           <div className="absolute top-0 end-[46px] -translate-y-1/2 whitespace-nowrap bg-primary px-6 py-[11px] text-xs font-semibold tracking-[.14em] text-primary-foreground shadow-card max-lg:end-[18px] max-lg:px-4 max-lg:py-2 max-lg:text-[10.5px] max-lg:tracking-[.1em]">
