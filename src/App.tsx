@@ -15,6 +15,8 @@ const Areas = lazy(() => import('./components/Areas'))
 const Contact = lazy(() => import('./components/Contact'))
 const Footer = lazy(() => import('./components/Footer'))
 const PrivacyModal = lazy(() => import('./components/PrivacyModal'))
+const AccessibilityModal = lazy(() => import('./components/AccessibilityModal'))
+const AccessibilityWidget = lazy(() => import('./components/AccessibilityWidget'))
 const WaFab = lazy(() => import('./components/WaFab'))
 
 function SectionFallback() {
@@ -23,9 +25,16 @@ function SectionFallback() {
 
 export default function App() {
   const [privacyOpen, setPrivacyOpen] = useState(false)
+  const [accessibilityOpen, setAccessibilityOpen] = useState(false)
 
   return (
     <>
+      <a
+        href="#top"
+        className="sr-only focus:not-sr-only focus:fixed focus:start-2 focus:top-2 focus:z-[200] focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+      >
+        דלג לתוכן הראשי
+      </a>
       <Navbar />
       <Hero />
       <Suspense fallback={<SectionFallback />}>
@@ -47,10 +56,16 @@ export default function App() {
         <Contact />
       </Suspense>
       <Suspense fallback={<SectionFallback />}>
-        <Footer />
+        <Footer onAccessibilityOpen={() => setAccessibilityOpen(true)} />
       </Suspense>
       <Suspense fallback={null}>
         <PrivacyModal open={privacyOpen} onClose={() => setPrivacyOpen(false)} />
+      </Suspense>
+      <Suspense fallback={null}>
+        <AccessibilityModal open={accessibilityOpen} onClose={() => setAccessibilityOpen(false)} />
+      </Suspense>
+      <Suspense fallback={null}>
+        <AccessibilityWidget />
       </Suspense>
       <Suspense fallback={null}>
         <WaFab />

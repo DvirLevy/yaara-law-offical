@@ -16,7 +16,8 @@
       "Bash(npx --yes playwright@1.62.1 screenshot --wait-for-timeout=1500 --viewport-size=1523,851 http://localhost:5173 /private/tmp/claude-501/-Users-dvirlevy-Desktop-Dvir-yaara-law-tsx/767dece3-7a39-4820-8fb1-9265befa7b85/scratchpad/current.png)",
       "Bash(npx --yes playwright@1.62.1 screenshot --wait-for-timeout=1000 --viewport-size=1523,851 http://localhost:5173 /private/tmp/claude-501/-Users-dvirlevy-Desktop-Dvir-yaara-law-tsx/767dece3-7a39-4820-8fb1-9265befa7b85/scratchpad/current.png)",
       "Bash(npx --yes playwright@1.62.1 screenshot --wait-for-timeout=3000 --viewport-size=1523,851 http://localhost:5173 /private/tmp/claude-501/-Users-dvirlevy-Desktop-Dvir-yaara-law-tsx/767dece3-7a39-4820-8fb1-9265befa7b85/scratchpad/current.png)",
-      "Bash(lsof -ti:5173 -sTCP:LISTEN)"
+      "Bash(lsof -ti:5173 -sTCP:LISTEN)",
+      "Bash(node -e \"console.log\\(Object.keys\\(require\\('/Users/dvirlevy/Desktop/Dvir/yaara-law-tsx/node_modules/lucide-react'\\)\\).filter\\(k=>/access/i.test\\(k\\)\\)\\)\")"
     ]
   }
 }

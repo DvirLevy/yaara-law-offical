@@ -75,7 +75,11 @@ export default function Contact() {
             <Button type="submit" className="self-start" disabled={submitting}>
               {t.submit}
             </Button>
-            {msg && <div className="border border-brand-line bg-brand-soft px-[18px] py-3.5 text-[13.5px] text-primary">{msg}</div>}
+            {msg && (
+              <div role="status" aria-live="polite" className="border border-brand-line bg-brand-soft px-[18px] py-3.5 text-[13.5px] text-primary">
+                {msg}
+              </div>
+            )}
           </form>
 
           <aside className="flex flex-col gap-[26px] bg-background p-10 shadow-card">
@@ -126,7 +130,7 @@ function InfoItem({ icon, label, children }: { icon: ReactNode; label: string; c
     <div className="flex items-start gap-4">
       <div className="grid h-[38px] w-[38px] flex-shrink-0 place-items-center text-primary">{icon}</div>
       <div className="min-w-0 [&_a]:font-serif [&_a]:text-[17px] [&_a]:text-foreground [&_p]:font-serif [&_p]:text-[17px] [&_p]:font-normal [&_p]:leading-[1.5] [&_p]:text-foreground">
-        <h4 className="mb-[5px] font-sans text-[10.5px] font-medium uppercase tracking-[.3em] text-ink-soft">{label}</h4>
+        <h3 className="mb-[5px] font-sans text-[10.5px] font-medium uppercase tracking-[.3em] text-ink-soft">{label}</h3>
         {children}
       </div>
     </div>

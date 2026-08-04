@@ -1,9 +1,15 @@
 import footerFallback from '../../content/footer'
+import accessibilityFallback from '../../content/accessibility'
 import { useContent } from '@/lib/content'
 import { Container } from '@/components/ui/container'
 
-export default function Footer() {
+interface Props {
+  onAccessibilityOpen: () => void
+}
+
+export default function Footer({ onAccessibilityOpen }: Props) {
   const t = useContent('footer', footerFallback)
+  const a11y = useContent('accessibility', accessibilityFallback)
   const year = new Date().getFullYear()
 
   return (
@@ -20,6 +26,10 @@ export default function Footer() {
           <a href="mailto:Yaara@yl-law.net" className="hover:text-white/85">
             {t.email}
           </a>
+          <span className="max-lg:hidden"> · </span>
+          <button type="button" className="hover:text-white/85" onClick={onAccessibilityOpen}>
+            {a11y.footer_link}
+          </button>
         </div>
       </Container>
     </footer>

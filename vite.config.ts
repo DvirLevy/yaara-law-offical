@@ -11,7 +11,8 @@ import path from 'node:path'
 // chunks can reuse instead of duplicating.
 const SECTION_COMPONENTS = [
   'Navbar', 'Hero', 'CtaCard', 'Pillars', 'About',
-  'Testimonials', 'Areas', 'Contact', 'Footer', 'PrivacyModal', 'WaFab',
+  'Testimonials', 'Areas', 'Contact', 'Footer', 'PrivacyModal',
+  'AccessibilityModal', 'AccessibilityWidget', 'WaFab',
 ]
 
 export default defineConfig({

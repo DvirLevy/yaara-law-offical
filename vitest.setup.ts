@@ -1,4 +1,8 @@
+import { expect } from 'vitest'
 import '@testing-library/jest-dom/vitest'
+import { toHaveNoViolations } from 'jest-axe'
+
+expect.extend(toHaveNoViolations)
 
 // jsdom doesn't implement IntersectionObserver, ResizeObserver, or
 // matchMedia; embla-carousel (used by the Testimonials carousel) reads all

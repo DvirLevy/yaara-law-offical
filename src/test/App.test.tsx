@@ -13,6 +13,9 @@ describe('App', () => {
     expect(screen.getByRole('heading', { level: 1, name: heroFallback.name })).toBeInTheDocument()
 
     // Below-the-fold sections are React.lazy() — they resolve asynchronously.
-    expect(await screen.findByText(new RegExp(footerFallback.email))).toBeInTheDocument()
+    // Uses copyright text (Footer-only) rather than the office email, which
+    // Contact.tsx also renders — matching on the email risks a multi-match
+    // once both lazy sections have resolved.
+    expect(await screen.findByText(new RegExp(footerFallback.copyright_suffix))).toBeInTheDocument()
   })
 })

@@ -9,7 +9,7 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-size: 16px;
+    font-size: calc(16px * var(--a11y-font-scale, 1));
     line-height: 1.7;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
@@ -72,4 +72,14 @@
     opacity: 1;
     transform: none;
   }
+}
+
+/* Accessibility widget preferences (src/components/AccessibilityWidget.tsx),
+   toggled via data-attributes on <html> and persisted to localStorage. */
+html[data-a11y-underline='true'] a {
+  text-decoration: underline !important;
+}
+
+html[data-a11y-contrast='true'] {
+  filter: contrast(1.35) saturate(1.15);
 }
