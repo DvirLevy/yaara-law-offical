@@ -1,0 +1,1 @@
+https://yaara-law-website.netlify.app/* https://yl-law.net/:splat 301!
