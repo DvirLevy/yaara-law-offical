@@ -24,6 +24,7 @@ export default {
   email: "Yaara@yl-law.net",
   address_label: "כתובת המשרד",
   address: "שד׳ הרכס 13, בניין A, קומה 4, מודיעין",
+  waze_link: "ניווט ב-Waze",
   hours_label: "שעות פעילות",
   hours: "ימים א׳–ה׳ · 09:00–18:00",
   map_title: "משרד YL — מודיעין",

@@ -1,5 +1,5 @@
 import { useState, type FormEvent, type ReactNode } from 'react'
-import { Phone, Smartphone, Mail, MapPin, Clock } from 'lucide-react'
+import { Phone, Smartphone, Mail, MapPin, Clock, Navigation } from 'lucide-react'
 
 import contactFallback from '../../content/contact'
 import { useContent } from '@/lib/content'
@@ -103,7 +103,19 @@ export default function Contact() {
             </InfoItem>
             <hr className="border-hairline" />
             <InfoItem icon={<MapPin className="h-[19px] w-[19px]" />} label={t.address_label}>
-              <p>{t.address}</p>
+              <p className="hidden lg:block">{t.address}</p>
+              <a
+                href={`https://waze.com/ul?q=${encodeURIComponent(t.address)}&navigate=yes`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block no-underline lg:hidden"
+              >
+                <p>{t.address}</p>
+                <span className="mt-0.5 flex items-center gap-1.5 !font-sans !text-[13px] !text-primary">
+                  <Navigation className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                  {t.waze_link}
+                </span>
+              </a>
             </InfoItem>
             <hr className="border-hairline" />
             <InfoItem icon={<Clock className="h-[19px] w-[19px]" />} label={t.hours_label}>

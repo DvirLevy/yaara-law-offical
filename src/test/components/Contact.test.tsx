@@ -26,7 +26,19 @@ describe('Contact', () => {
     expect(screen.getByLabelText(contactFallback.message_label)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: contactFallback.submit })).toBeInTheDocument()
     expect(screen.getByText(contactFallback.office_phone)).toBeInTheDocument()
-    expect(screen.getByText(contactFallback.address)).toBeInTheDocument()
+    // Address renders twice — a plain <p> for desktop and, wrapped in the
+    // Waze link, another <p> for mobile — toggled via lg: breakpoint classes
+    // (both present in the DOM at once; CSS decides which one is visible).
+    expect(screen.getAllByText(contactFallback.address)).toHaveLength(2)
+  })
+
+  it('makes the office address a Waze navigation link on mobile', () => {
+    render(<Contact />)
+
+    const wazeLink = screen.getByRole('link', { name: new RegExp(contactFallback.waze_link) })
+    expect(wazeLink).toHaveAttribute('href', `https://waze.com/ul?q=${encodeURIComponent(contactFallback.address)}&navigate=yes`)
+    expect(wazeLink).toHaveAttribute('target', '_blank')
+    expect(wazeLink).toHaveTextContent(contactFallback.address)
   })
 
   it('is the #contact anchor target', () => {
