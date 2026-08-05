@@ -18,7 +18,7 @@ describe('Navbar', () => {
 
   it('renders the firm logo', () => {
     render(<Navbar />)
-    expect(screen.getByAltText('Yaara Levy Law Office')).toBeInTheDocument()
+    expect(screen.getByAltText('יערה לוי משרד עורכי דין')).toBeInTheDocument()
   })
 
   it('has a mobile menu toggle', () => {

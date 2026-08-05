@@ -13,7 +13,7 @@ export default function Hero() {
         <LazyImage
           priority
           src={s3('yaara-cutout.png')}
-          alt="Adv. Yaara Levy"
+          alt="עו״ד יערה לוי"
           className="relative z-[1] h-[150%] w-auto max-w-full object-contain object-bottom drop-shadow-[0_24px_38px_rgba(20,16,14,.22)] max-lg:h-full"
         />
       </div>

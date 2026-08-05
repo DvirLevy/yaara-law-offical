@@ -19,7 +19,7 @@ export default function AccessibilityModal({ open, onClose }: Props) {
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="gap-0 p-0">
         <DialogHeader>
-          <LazyImage priority src={s3('logo-transparent.png')} alt="YL Law" className="h-[38px] w-auto" />
+          <LazyImage priority src={s3('logo-transparent.png')} alt="יערה לוי משרד עורכי דין" className="h-[38px] w-auto" />
           <div className="flex-1 text-center">
             <DialogTitle>{t.title}</DialogTitle>
             <DialogDescription>{t.subtitle}</DialogDescription>

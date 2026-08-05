@@ -12,7 +12,7 @@ describe('About', () => {
     expect(screen.getByText(aboutFallback.p2)).toBeInTheDocument()
     expect(screen.getByText(aboutFallback.portrait_name)).toBeInTheDocument()
     expect(screen.getByText(aboutFallback.phrase_quote)).toBeInTheDocument()
-    expect(screen.getByAltText('Adv. Yaara Levy')).toBeInTheDocument()
+    expect(screen.getByAltText('עו״ד יערה לוי')).toBeInTheDocument()
   })
 
   it('is the #about anchor target', () => {

@@ -22,7 +22,7 @@ export default function About() {
           <div className="relative aspect-[4/5] overflow-hidden bg-ink-faint/40 shadow-card-lg after:pointer-events-none after:absolute after:inset-0 after:[background:linear-gradient(180deg,transparent_55%,rgba(15,18,20,.4)_100%)] max-lg:max-w-[360px]">
             <LazyImage
               src={s3('yaara-portrait.jpg')}
-              alt="Adv. Yaara Levy"
+              alt="עו״ד יערה לוי"
               className="h-full w-full object-cover object-[center_18%]"
             />
             <div className="absolute bottom-0 start-0 z-[3] bg-primary px-6 py-4">

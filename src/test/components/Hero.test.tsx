@@ -11,7 +11,7 @@ describe('Hero', () => {
     expect(screen.getByRole('heading', { level: 1, name: heroFallback.name })).toBeInTheDocument()
     expect(screen.getByText(heroFallback.badge)).toBeInTheDocument()
     expect(screen.getByText(heroFallback.eyebrow_line2_bold)).toBeInTheDocument()
-    expect(screen.getByAltText('Adv. Yaara Levy')).toBeInTheDocument()
+    expect(screen.getByAltText('עו״ד יערה לוי')).toBeInTheDocument()
   })
 
   it('is the #top anchor target', () => {

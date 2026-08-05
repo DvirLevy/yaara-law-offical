@@ -69,7 +69,7 @@ export default function Navbar() {
             <LazyImage
               priority
               src={s3('logo-transparent.png')}
-              alt="Yaara Levy Law Office"
+              alt="יערה לוי משרד עורכי דין"
               className="block h-[52px] w-auto transition-opacity hover:opacity-80"
             />
           </a>
