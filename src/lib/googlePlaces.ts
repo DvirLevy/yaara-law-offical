@@ -29,11 +29,43 @@ interface PlacesLibrary {
   Place: new (options: { id: string }) => PlaceInstance
 }
 
+export interface LatLng {
+  lat: number
+  lng: number
+}
+
+interface MapInstance {}
+
+export interface MapsLibrary {
+  Map: new (el: HTMLElement, options: Record<string, unknown>) => MapInstance
+}
+
+interface MarkerInstance {}
+
+export interface MarkerLibrary {
+  Marker: new (options: { position: LatLng; map: MapInstance; title?: string }) => MarkerInstance
+}
+
+interface GeocoderResult {
+  geometry: { location: { lat(): number; lng(): number } }
+}
+
+interface GeocoderInstance {
+  geocode(request: { address: string }): Promise<{ results: GeocoderResult[] }>
+}
+
+export interface GeocodingLibrary {
+  Geocoder: new () => GeocoderInstance
+}
+
 declare global {
   interface Window {
     google?: {
       maps: {
         importLibrary(library: 'places'): Promise<PlacesLibrary>
+        importLibrary(library: 'maps'): Promise<MapsLibrary>
+        importLibrary(library: 'marker'): Promise<MarkerLibrary>
+        importLibrary(library: 'geocoding'): Promise<GeocodingLibrary>
       }
     }
     [callback: `__googleMapsCallback_${string}`]: (() => void) | undefined
@@ -42,7 +74,7 @@ declare global {
 
 let scriptPromise: Promise<void> | null = null
 
-function loadMapsScript(apiKey: string): Promise<void> {
+export function loadMapsScript(apiKey: string): Promise<void> {
   if (window.google?.maps?.importLibrary) return Promise.resolve()
   if (scriptPromise) return scriptPromise
 

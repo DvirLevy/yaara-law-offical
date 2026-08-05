@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import OfficeMap from './OfficeMap'
 
 export default function Contact() {
   const t = useContent('contact', contactFallback)
@@ -109,15 +110,7 @@ export default function Contact() {
               <p>{t.hours}</p>
             </InfoItem>
 
-            <div className="relative grid aspect-video place-items-center overflow-hidden border border-hairline bg-panel-2">
-              <div className="grid h-[42px] w-[42px] animate-pin-pulse place-items-center rounded-full bg-primary text-white">
-                <MapPin className="h-5 w-5" />
-              </div>
-              <div className="absolute bottom-4 end-4 border border-hairline bg-card px-4 py-2.5 text-xs text-ink-soft shadow-card">
-                <b className="mb-0.5 block font-serif text-[13px] font-bold text-foreground">{t.map_title}</b>
-                {t.map_address}
-              </div>
-            </div>
+            <OfficeMap address={t.address} title={t.map_title} subtitle={t.map_address} />
           </aside>
         </div>
       </Container>

@@ -15,6 +15,7 @@ import PrivacyModal from '../components/PrivacyModal'
 import AccessibilityModal from '../components/AccessibilityModal'
 import AccessibilityWidget from '../components/AccessibilityWidget'
 import WaFab from '../components/WaFab'
+import OfficeMap from '../components/OfficeMap'
 
 // axe's color-contrast rule needs real layout/canvas rendering that jsdom
 // doesn't provide, so it produces noise unrelated to markup correctness —
@@ -84,6 +85,11 @@ describe('accessibility (axe)', () => {
 
   it('WaFab has no violations', async () => {
     const { container } = render(<WaFab />)
+    expect(await axe(container, axeOptions)).toHaveNoViolations()
+  })
+
+  it('OfficeMap has no violations', async () => {
+    const { container } = render(<OfficeMap address="שד׳ הרכס 13, מודיעין" title="משרד YL" subtitle="שד׳ הרכס 13" />)
     expect(await axe(container, axeOptions)).toHaveNoViolations()
   })
 })
