@@ -4,8 +4,12 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import Contact from '../../components/Contact'
 import contactFallback from '../../../content/contact'
 import { submitContactForm } from '@/lib/contactSubmit'
+import { useTurnstile } from '@/lib/turnstile'
+import { useBotTrap } from '@/lib/botTrap'
 
 vi.mock('@/lib/contactSubmit', () => ({ submitContactForm: vi.fn() }))
+vi.mock('@/lib/turnstile', () => ({ useTurnstile: vi.fn() }))
+vi.mock('@/lib/botTrap', () => ({ useBotTrap: vi.fn() }))
 
 const fillRequiredFields = () => {
   fireEvent.change(screen.getByLabelText(contactFallback.name_label), { target: { value: 'דנה כהן' } })
@@ -16,6 +20,17 @@ const fillRequiredFields = () => {
 describe('Contact', () => {
   beforeEach(() => {
     vi.mocked(submitContactForm).mockReset()
+    vi.mocked(useTurnstile).mockReturnValue({
+      containerRef: { current: null },
+      arm: vi.fn(),
+      getToken: vi.fn().mockResolvedValue('test-token'),
+      reset: vi.fn(),
+      status: 'ready',
+    })
+    vi.mocked(useBotTrap).mockReturnValue({
+      honeypotRef: { current: null },
+      isBot: () => false,
+    })
   })
 
   it('renders the contact form fields and office details', () => {
@@ -72,5 +87,46 @@ describe('Contact', () => {
     fireEvent.click(screen.getByRole('button', { name: contactFallback.submit }))
 
     await waitFor(() => expect(screen.getByText(contactFallback.submit_error_msg)).toBeInTheDocument())
+  })
+
+  it('includes the Turnstile token in the submission', async () => {
+    vi.mocked(submitContactForm).mockResolvedValueOnce(undefined)
+    render(<Contact />)
+
+    fillRequiredFields()
+    fireEvent.click(screen.getByRole('button', { name: contactFallback.submit }))
+
+    await waitFor(() => expect(screen.getByText(contactFallback.success_msg)).toBeInTheDocument())
+    expect(submitContactForm).toHaveBeenCalledWith(expect.objectContaining({ turnstileToken: 'test-token' }))
+  })
+
+  it('submits with a null token when Turnstile is unavailable (fail-open)', async () => {
+    vi.mocked(useTurnstile).mockReturnValue({
+      containerRef: { current: null },
+      arm: vi.fn(),
+      getToken: vi.fn().mockResolvedValue(null),
+      reset: vi.fn(),
+      status: 'unavailable',
+    })
+    vi.mocked(submitContactForm).mockResolvedValueOnce(undefined)
+    render(<Contact />)
+
+    fillRequiredFields()
+    fireEvent.click(screen.getByRole('button', { name: contactFallback.submit }))
+
+    await waitFor(() => expect(screen.getByText(contactFallback.success_msg)).toBeInTheDocument())
+    expect(submitContactForm).toHaveBeenCalledWith(expect.objectContaining({ turnstileToken: null }))
+    expect(screen.getByText(contactFallback.turnstile_unavailable_msg)).toBeInTheDocument()
+  })
+
+  it('does not submit when the bot trap flags the request, but still shows success', async () => {
+    vi.mocked(useBotTrap).mockReturnValue({ honeypotRef: { current: null }, isBot: () => true })
+    render(<Contact />)
+
+    fillRequiredFields()
+    fireEvent.click(screen.getByRole('button', { name: contactFallback.submit }))
+
+    await waitFor(() => expect(screen.getByText(contactFallback.success_msg)).toBeInTheDocument())
+    expect(submitContactForm).not.toHaveBeenCalled()
   })
 })
