@@ -13,6 +13,8 @@ interface ImportMetaEnv {
   readonly VITE_GOOGLE_MAPS_API_KEY?: string
   /** Google Place ID for the office's Google Business listing. Both this and VITE_GOOGLE_MAPS_API_KEY must be set to fetch live reviews; otherwise Testimonials uses bundled/CDN copy. */
   readonly VITE_GOOGLE_PLACE_ID?: string
+  /** Cloudflare Turnstile sitekey (public), used by CtaCard/Contact to render the anti-bot widget. See src/lib/turnstile.ts. Unset means the widget never renders and forms submit without a token (fail-open). */
+  readonly VITE_TURNSTILE_SITE_KEY?: string
 }
 
 interface ImportMeta {

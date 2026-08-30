@@ -4,22 +4,32 @@ import { Phone, Smartphone, Mail, MapPin, Clock, Navigation } from 'lucide-react
 import contactFallback from '../../content/contact'
 import { useContent } from '@/lib/content'
 import { submitContactForm } from '@/lib/contactSubmit'
+import { useTurnstile } from '@/lib/turnstile'
+import { useBotTrap } from '@/lib/botTrap'
 import { Container } from '@/components/ui/container'
 import { SectionLabel, SectionTitle, SectionLede } from '@/components/ui/section-heading'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import TurnstileField from '@/components/TurnstileField'
 import OfficeMap from './OfficeMap'
 
 export default function Contact() {
   const t = useContent('contact', contactFallback)
   const [msg, setMsg] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const { containerRef, arm, getToken, reset, status } = useTurnstile('contact')
+  const { honeypotRef, isBot } = useBotTrap()
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const f = e.currentTarget
+    if (isBot()) {
+      setMsg(t.success_msg)
+      f.reset()
+      return
+    }
     const name = (f.elements.namedItem('name') as HTMLInputElement).value.trim()
     const phone = (f.elements.namedItem('phone') as HTMLInputElement).value.trim()
     const email = (f.elements.namedItem('email') as HTMLInputElement).value.trim()
@@ -30,12 +40,14 @@ export default function Contact() {
     }
     setSubmitting(true)
     try {
-      await submitContactForm({ fullName: name, email, phone, message, subject: t.email_subject })
+      const turnstileToken = await getToken()
+      await submitContactForm({ fullName: name, email, phone, message, subject: t.email_subject, turnstileToken })
       setMsg(t.success_msg)
       f.reset()
     } catch {
       setMsg(t.submit_error_msg)
     } finally {
+      reset()
       setSubmitting(false)
     }
   }
@@ -50,7 +62,16 @@ export default function Contact() {
         <SectionLede>{t.lede}</SectionLede>
 
         <div className="mt-[18px] grid grid-cols-[1.1fr_.9fr] items-start gap-20 max-lg:grid-cols-1 max-lg:gap-11">
-          <form className="flex flex-col gap-[22px]" onSubmit={handleSubmit} noValidate>
+          <form className="flex flex-col gap-[22px]" onSubmit={handleSubmit} onFocus={arm} noValidate>
+            <input
+              ref={honeypotRef}
+              type="text"
+              name="company"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute -start-[9999px] h-px w-px overflow-hidden opacity-0"
+            />
             <div className="grid grid-cols-2 gap-[22px] max-lg:grid-cols-1">
               <div className="flex flex-col gap-[7px]">
                 <Label htmlFor="f-name">{t.name_label}</Label>
@@ -73,6 +94,7 @@ export default function Contact() {
               <Textarea id="f-msg" name="message" placeholder={t.message_placeholder} required
                 className="rounded-none px-0 py-[13px]" />
             </div>
+            <TurnstileField containerRef={containerRef} status={status} unavailableMessage={t.turnstile_unavailable_msg} />
             <Button type="submit" className="self-start" disabled={submitting}>
               {t.submit}
             </Button>

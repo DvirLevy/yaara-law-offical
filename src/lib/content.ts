@@ -18,7 +18,7 @@ const cache = new Map<string, unknown>()
  * *and* the offline/first-paint fallback — never treat them as unused
  * once the CDN is wired up.
  */
-export function useContent<T>(key: string, fallback: T): T {
+export function useContent<T extends object>(key: string, fallback: T): T {
   const [data, setData] = useState<T>(() => (cache.has(key) ? (cache.get(key) as T) : fallback))
 
   useEffect(() => {
@@ -31,8 +31,11 @@ export function useContent<T>(key: string, fallback: T): T {
         return res.json() as Promise<T>
       })
       .then((json) => {
-        cache.set(key, json)
-        if (!cancelled) setData(json)
+        // Merge over `fallback` rather than replacing it outright, so a CDN
+        // payload that predates a newly added content key doesn't blank it out.
+        const merged = { ...fallback, ...json }
+        cache.set(key, merged)
+        if (!cancelled) setData(merged)
       })
       .catch((err) => {
         // Keep rendering the bundled fallback; surface the failure for monitoring.

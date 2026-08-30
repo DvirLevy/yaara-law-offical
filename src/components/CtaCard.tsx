@@ -3,10 +3,13 @@ import { useState, type FormEvent } from 'react'
 import ctaFallback from '../../content/cta'
 import { useContent } from '@/lib/content'
 import { submitContactForm } from '@/lib/contactSubmit'
+import { useTurnstile } from '@/lib/turnstile'
+import { useBotTrap } from '@/lib/botTrap'
 import { Container } from '@/components/ui/container'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
+import TurnstileField from '@/components/TurnstileField'
 
 interface Props {
   onPrivacyOpen: () => void
@@ -17,10 +20,17 @@ export default function CtaCard({ onPrivacyOpen }: Props) {
   const [msg, setMsg] = useState('')
   const [consent, setConsent] = useState(true)
   const [submitting, setSubmitting] = useState(false)
+  const { containerRef, arm, getToken, reset, status } = useTurnstile('cta')
+  const { honeypotRef, isBot } = useBotTrap()
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const f = e.currentTarget
+    if (isBot()) {
+      setMsg(t.success_msg)
+      f.reset()
+      return
+    }
     const name = (f.elements.namedItem('name') as HTMLInputElement).value.trim()
     const phone = (f.elements.namedItem('phone') as HTMLInputElement).value.trim()
     const email = (f.elements.namedItem('email') as HTMLInputElement).value.trim()
@@ -30,12 +40,14 @@ export default function CtaCard({ onPrivacyOpen }: Props) {
     }
     setSubmitting(true)
     try {
-      await submitContactForm({ fullName: name, email, phone, message: '', subject: t.email_subject })
+      const turnstileToken = await getToken()
+      await submitContactForm({ fullName: name, email, phone, message: '', subject: t.email_subject, turnstileToken })
       setMsg(t.success_msg)
       f.reset()
     } catch {
       setMsg(t.submit_error_msg)
     } finally {
+      reset()
       setSubmitting(false)
     }
   }
@@ -53,7 +65,16 @@ export default function CtaCard({ onPrivacyOpen }: Props) {
           <p className="mb-[34px] max-w-[62ch] text-[clamp(15px,1.5vw,18.5px)] leading-[1.7] text-ink-soft">
             {t.sub_plain} <b className="font-semibold text-foreground">{t.sub_bold}</b>
           </p>
-          <form className="flex flex-wrap items-stretch gap-3.5" onSubmit={handleSubmit} noValidate>
+          <form className="flex flex-wrap items-stretch gap-3.5" onSubmit={handleSubmit} onFocus={arm} noValidate>
+            <input
+              ref={honeypotRef}
+              type="text"
+              name="company"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute -start-[9999px] h-px w-px overflow-hidden opacity-0"
+            />
             <Input name="name" type="text" aria-label={t.name_placeholder} placeholder={t.name_placeholder} required className="min-w-0 flex-[1_1_180px]"/>
             <Input name="phone" type="tel" aria-label={t.phone_placeholder} placeholder={t.phone_placeholder} required className="min-w-0 flex-[1_1_180px]" />
             <Input name="email" type="email" aria-label={t.email_placeholder} placeholder={t.email_placeholder} className="min-w-0 flex-[1_1_180px]" />
@@ -61,6 +82,7 @@ export default function CtaCard({ onPrivacyOpen }: Props) {
               {t.submit}
             </Button>
           </form>
+          <TurnstileField containerRef={containerRef} status={status} unavailableMessage={t.turnstile_unavailable_msg} />
           <label className="mt-[22px] flex flex-wrap items-center justify-center gap-2.5 text-[13px] text-ink-soft">
             <Checkbox checked={consent} onCheckedChange={(c) => setConsent(c === true)} />
             <span>
